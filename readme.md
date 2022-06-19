@@ -44,6 +44,30 @@
 - CAREER
 - SUMARIZE
 
+## DEMO
+
+You can download [pretrain model](https://drive.google.com/file/d/1WxHBGETkX01Hiwug4V5yfg4inbglhK7h/view?usp=sharing) or training
+
+When you have model. Typing the command. Each command is one teminal.
+
+```
+# create server
+make server
+
+# create app
+make app
+
+# External api
+make external
+```
+
+Some best results
+
+```
+![title](demo.png)
+```
+
+
 ## TODO
 
 - Add more dataset with many layout
