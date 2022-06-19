@@ -1,4 +1,4 @@
-from utils import *
+from auto_label.utils import *
 from tqdm import tqdm
 import warnings
 import argparse
