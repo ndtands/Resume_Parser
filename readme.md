@@ -43,3 +43,8 @@
 - SKILLS
 - CAREER
 - SUMARIZE
+
+## TODO
+
+- Add more dataset with many layout
+- Change metrics with F1-score for IO tag
