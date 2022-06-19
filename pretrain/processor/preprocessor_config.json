@@ -1,0 +1,9 @@
+{
+  "apply_ocr": true,
+  "do_resize": true,
+  "feature_extractor_type": "LayoutLMv2FeatureExtractor",
+  "ocr_lang": null,
+  "processor_class": "LayoutLMv2Processor",
+  "resample": 2,
+  "size": 224
+}
