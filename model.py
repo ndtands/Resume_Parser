@@ -16,37 +16,33 @@ class Resume_parser:
     def load_model(self, path_model: str=MODEL_PATH) -> None:
         self.model.load_state_dict(torch.load(path_model))
     
-    def infer(self, path_image: str, type_detect: str='pretrain') -> Image.Image:
-        if type_detect == 'pretrain':
-            # Load image
-            image = Image.open(path_image)
-            image = image.convert("RGB")
+    def infer(self, path_image: str) -> Image.Image:
+        # Load image
+        image = Image.open(path_image)
+        image = image.convert("RGB")
 
-            # preprocess
-            encoding = self.process(image, return_offsets_mapping=True, return_tensors="pt")
-            offset_mapping = encoding.pop('offset_mapping')
-            for k,v in encoding.items():
-                encoding[k] = v.to(self.device)
-            self.model.to(self.device)
+        # preprocess
+        encoding = self.process(image, return_offsets_mapping=True, return_tensors="pt")
+        offset_mapping = encoding.pop('offset_mapping')
+        for k,v in encoding.items():
+            encoding[k] = v.to(self.device)
+        self.model.to(self.device)
 
-            # inference
-            outputs = self.model(**encoding)
+        # inference
+        outputs = self.model(**encoding)
 
-            # posprocess
-            predictions = outputs.logits.argmax(-1).squeeze().tolist()
-            token_boxes = encoding.bbox.squeeze().tolist()
-            width, height = image.size
-            is_subword = np.array(offset_mapping.squeeze().tolist())[:,0] != 0
+        # posprocess
+        predictions = outputs.logits.argmax(-1).squeeze().tolist()
+        token_boxes = encoding.bbox.squeeze().tolist()
+        width, height = image.size
+        is_subword = np.array(offset_mapping.squeeze().tolist())[:,0] != 0
 
-            true_predictions = [IDX2TAG[pred] for idx, pred in enumerate(predictions) if not is_subword[idx]]
-            true_boxes = [unnormalize_box(box, width, height) for idx, box in enumerate(token_boxes) if not is_subword[idx]]
-            draw = ImageDraw.Draw(image)
-            font = ImageFont.load_default()
+        true_predictions = [IDX2TAG[pred] for idx, pred in enumerate(predictions) if not is_subword[idx]]
+        true_boxes = [unnormalize_box(box, width, height) for idx, box in enumerate(token_boxes) if not is_subword[idx]]
+        draw = ImageDraw.Draw(image)
+        font = ImageFont.load_default()
 
-            for prediction, box in zip(true_predictions, true_boxes):
-                draw.rectangle(box, outline=TAG2COLOR[prediction])
-                draw.text((box[0]+10, box[1]-10), text=prediction, fill=TAG2COLOR[prediction], font=font)
-            return image
-        elif type_detect == 'tesseract':
-            # TODO
-            pass
+        for prediction, box in zip(true_predictions, true_boxes):
+            draw.rectangle(box, outline=TAG2COLOR[prediction])
+            draw.text((box[0]+10, box[1]-10), text=prediction, fill=TAG2COLOR[prediction], font=font)
+        return image
