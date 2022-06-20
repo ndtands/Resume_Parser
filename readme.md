@@ -63,9 +63,7 @@ make external
 
 Some best results
 
-```
 ![title](demo.png)
-```
 
 
 ## TODO
