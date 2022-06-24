@@ -61,6 +61,6 @@ TAG2COLOR = {
     "URL":"#4682B4"
  }
 
-MODEL_PATH = 'best_model.pt'
+MODEL_PATH = 'bestmodel.pt'
 PRETRAIN_MODEL = 'pretrain/model'
 PRETRAIN_PROCESSOR = 'pretrain/processor'

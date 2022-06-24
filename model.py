@@ -15,10 +15,10 @@ class Resume_parser:
 
     def load_model(self, path_model: str=MODEL_PATH) -> None:
         self.model.load_state_dict(torch.load(path_model))
-    
-    def infer(self, path_image: str) -> Image.Image:
+        print('✅ Load done')
+        
+    def infer(self, image) -> Image.Image:
         # Load image
-        image = Image.open(path_image)
         image = image.convert("RGB")
 
         # preprocess
